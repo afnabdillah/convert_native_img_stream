@@ -49,15 +49,13 @@ class ConvertNativeImgStreamPlugin: FlutterPlugin, MethodCallHandler {
       return
     }
 
-    Thread {
-      val out = ByteArrayOutputStream()
-      val yuv = YuvImage(bytes, ImageFormat.NV21, width, height, null)
-      yuv.compressToJpeg(Rect(0, 0, width, height), quality, out)
-      val converted = out.toByteArray()
-      Handler(Looper.getMainLooper()).post {
-        result.success(converted)
-      }
-    }.start()
+    val out = ByteArrayOutputStream()
+    val yuv = YuvImage(bytes, ImageFormat.NV21, width, height, null)
+    yuv.compressToJpeg(Rect(0, 0, width, height), quality, out)
+    val converted = out.toByteArray()
+    Handler(Looper.getMainLooper()).post {
+      result.success(converted)
+    }
   }
 
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
